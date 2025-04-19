@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Pin Shape -->
+    <path
+        android:fillColor="#0A28D3"
+        android:pathData="M12,2C8.13,2 5,5.13 5,9c0,5.25 7,13 7,13s7,-7.75 7,-13c0,-3.87 -3.13,-7 -7,-7z" />
+
+    <!-- Inner White Circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,11.5c-1.38,0 -2.5,-1.12 -2.5,-2.5s1.12,-2.5 2.5,-2.5 2.5,1.12 2.5,2.5 -1.12,2.5 -2.5,2.5z" />
+
+    <!-- Shoulders or Base Curve -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M7.5,17c0.66,-2.01 2.49,-3.5 4.5,-3.5s3.84,1.49 4.5,3.5H7.5z" />
+</vector>

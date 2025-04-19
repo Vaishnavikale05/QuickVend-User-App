@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Vendor Details -->
+    <TextView
+        android:id="@+id/vendorName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/icon_color"
+        android:text="Vendor Name" />
+
+    <TextView
+        android:id="@+id/vendorCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="Vendor Category" />
+
+    <RatingBar
+        android:id="@+id/vendorRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:rating="0" />
+
+    <!-- Reviews list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/vendorReviews"
+        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:layout_height="0dp"
+        android:background="@drawable/profile_card_background"
+        android:layout_weight="1"/>
+
+    <!-- Add Review -->
+    <EditText
+        android:id="@+id/reviewEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your review" />
+
+    <RatingBar
+        android:id="@+id/reviewRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:numStars="5"
+        android:rating="0" />
+
+    <Button
+        android:id="@+id/submitReviewButton"
+        android:layout_width="wrap_content"
+        android:backgroundTint="@color/icon_color"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Submit Review" />
+
+</LinearLayout>

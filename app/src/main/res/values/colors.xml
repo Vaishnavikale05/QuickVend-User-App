@@ -1,0 +1,8 @@
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#fff</color>
+    <color name="icon_color">#FF5722</color> <!-- Example custom icon color -->
+    <color name="text_color">#000000</color> <!-- Example custom text color -->
+    <color name="orange">#FFA726</color>
+    <color name="brown">#5D4037</color>
+</resources>
