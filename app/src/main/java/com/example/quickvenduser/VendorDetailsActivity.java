@@ -20,6 +20,7 @@ public class VendorDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_details);
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
         vendorImage = findViewById(R.id.vendorImage);
         stallName = findViewById(R.id.stallName);

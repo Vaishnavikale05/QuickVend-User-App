@@ -49,6 +49,10 @@ public class MapFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_map_fragment, container, false);
         Configuration.getInstance().setUserAgentValue(requireContext().getPackageName());
+        requireActivity().getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        );
+        requireActivity().getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
         mapView = view.findViewById(R.id.mapView);
         mapView.setMultiTouchControls(true);

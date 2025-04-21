@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.quickvenduser.LoginActivity;
 import com.example.quickvenduser.ProfileEditActivity;
 import com.example.quickvenduser.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +34,7 @@ public class ProfileFragment extends Fragment {
     private ImageView profileImageView;
     private TextView fullNameTextView, emailTextView, phoneTextView, locationTextView;
     private Button editProfileButton;
+    private ImageView logoutButton;
 
     private String userUid;
 
@@ -44,6 +46,17 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_profile_fragment, container, false);
+        requireActivity().getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        );
+        requireActivity().getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        logoutButton = view.findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // clear backstack
+            startActivity(intent);
+        });
 
         // Initialize views
         profileImageView = view.findViewById(R.id.profileImage);

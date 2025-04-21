@@ -41,6 +41,8 @@ public class ProfileEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+
 
         // Initialize views
         profileImageView = findViewById(R.id.profileImageView);

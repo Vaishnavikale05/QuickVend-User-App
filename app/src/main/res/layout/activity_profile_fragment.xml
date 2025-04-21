@@ -9,6 +9,15 @@
     tools:context=".fragments.ProfileFragment">
 
     <!-- Profile Image -->
+    <ImageButton
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_logout"
+    android:background="@android:color/transparent"
+    android:contentDescription="Logout"
+    android:layout_alignParentEnd="true"
+    android:layout_margin="16dp" />
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="150dp"

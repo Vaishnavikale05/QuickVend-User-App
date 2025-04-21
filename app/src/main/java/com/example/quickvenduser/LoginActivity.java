@@ -22,9 +22,18 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
 
+        // Check if user is already logged in
         mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            // User already logged in, go directly to MainActivity
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish(); // Close LoginActivity so user can't go back to it
+            return;
+        }
+
+        setContentView(R.layout.activity_login);
 
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);

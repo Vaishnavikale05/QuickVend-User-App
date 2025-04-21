@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
