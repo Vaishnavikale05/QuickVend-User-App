@@ -1,5 +1,6 @@
 package com.example.quickvenduser.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,11 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quickvenduser.R;
+import com.example.quickvenduser.VendorDetailsActivity;
 import com.example.quickvenduser.adapters.FoodCategoryAdapter;
 import com.example.quickvenduser.adapters.FilterAdapter;
 import com.example.quickvenduser.adapters.VendorAdapter;
 import com.example.quickvenduser.models.FoodCategory;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -73,7 +76,16 @@ public class HomeFragment extends Fragment {
             applyFilters();
         });
 
-        vendorAdapter = new VendorAdapter(vendorList);
+        vendorAdapter = new VendorAdapter(vendorList, vendorDoc -> {
+            Intent intent = new Intent(getContext(), VendorDetailsActivity.class);
+            intent.putExtra("stallName", vendorDoc.getString("stallName"));
+            intent.putExtra("category", vendorDoc.getString("category"));
+            intent.putExtra("phone", vendorDoc.getString("contactNumber"));
+            intent.putExtra("location", vendorDoc.getString("address"));
+            intent.putExtra("profileImageEncrypted", vendorDoc.getString("profileImageEncrypted"));
+            startActivity(intent);
+        });
+
 
         foodCategoriesRecyclerView.setAdapter(foodCategoryAdapter);
         filtersRecyclerView.setAdapter(filterAdapter);
@@ -99,7 +111,7 @@ public class HomeFragment extends Fragment {
         foodCategoryList.clear();
         foodCategoryList.add(new FoodCategory("Burgers", R.drawable.ic_burger));
         foodCategoryList.add(new FoodCategory("Pizza", R.drawable.ic_pizza));
-        foodCategoryList.add(new FoodCategory("Brevrages", R.drawable.ic_brevrages));
+        foodCategoryList.add(new FoodCategory("Beverages", R.drawable.ic_beverages));
         foodCategoryList.add(new FoodCategory("Sushi", R.drawable.ic_sushi));
         foodCategoryList.add(new FoodCategory("Momos", R.drawable.ic_momos));
         foodCategoryList.add(new FoodCategory("Rice Plates", R.drawable.ic_curry));
@@ -128,37 +140,38 @@ public class HomeFragment extends Fragment {
                     vendorAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
-                    // Handle failure
+                    // Handle failure here
                 });
     }
 
     private void applyFilters() {
-        firestore.collection("vendors")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    vendorList.clear();
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        String vendorCategory = documentSnapshot.getString("category");
-                        String vendorFilter = documentSnapshot.getString("foodType");
-                        String vendorName = documentSnapshot.getString("stallName");
+        Query query = firestore.collection("vendors");
 
-                        boolean matchesCategory = selectedCategory == null || selectedCategory.equalsIgnoreCase("All")
-                                || (vendorCategory != null && vendorCategory.equalsIgnoreCase(selectedCategory));
+        // Apply category filter if necessary
+        if (!selectedCategory.equalsIgnoreCase("All")) {
+            query = query.whereEqualTo("category", selectedCategory);
+        }
 
-                        boolean matchesFilter = selectedFilter == null || selectedFilter.equalsIgnoreCase("All")
-                                || (vendorFilter != null && vendorFilter.equalsIgnoreCase(selectedFilter));
+        // Apply food filter if necessary
+        if (!selectedFilter.equalsIgnoreCase("All")) {
+            query = query.whereEqualTo("foodType", selectedFilter);
+        }
 
-                        boolean matchesSearch = searchQuery.isEmpty()
-                                || (vendorName != null && vendorName.toLowerCase().contains(searchQuery.toLowerCase()));
+        // Apply search query
+        if (!searchQuery.isEmpty()) {
+            query = query.orderBy("stallName")
+                    .startAt(searchQuery)
+                    .endAt(searchQuery + "\uf8ff");
+        }
 
-                        if (matchesCategory && matchesFilter && matchesSearch) {
-                            vendorList.add(documentSnapshot);
-                        }
-                    }
-                    vendorAdapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    // Handle error
-                });
+        query.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            vendorList.clear();
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                vendorList.add(documentSnapshot);
+            }
+            vendorAdapter.notifyDataSetChanged();
+        }).addOnFailureListener(e -> {
+            // Handle failure
+        });
     }
 }
